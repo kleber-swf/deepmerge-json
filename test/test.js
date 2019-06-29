@@ -30,7 +30,6 @@ describe('basic merge', function () {
 		assert.notEqual(res, src);
 	});
 
-	// TODO merge arrays
 	// TODO merge with null values
 	// TODO null target
 	// TODO null source
@@ -38,26 +37,21 @@ describe('basic merge', function () {
 
 
 describe('object merge', function () {
-	it('should deeply objects', function () {
-		const tgt = { a: { b: 1, c: { d: 2, e: { f: 3, g: { h: 4 } } } } };
-		const src = { a: { b: 10, c: { d: 20, e: { f: 30, g: { h: 40, i: { j: 50 } } } } } };
+	it('should deeply copy objects', function () {
+		const tgt = { a: '@', b: { c: 1, d: { e: 2, f: { g: 3, h: { i: 4, l: '$' } } } } };
+		const src = { b: { c: 10, d: { e: 20, f: { g: 30, h: { i: 40, j: { k: 50 } } } } } };
 		const res = merge(tgt, src);
-		assert.deepEqual(res, src);
+		assert.deepEqual(res, {
+			a: '@', b: { c: 10, d: { e: 20, f: { g: 30, h: { i: 40, j: { k: 50 }, l: '$' } } } }
+		});
 	});
-
-	it('should deeply objects', function () {
-		const tgt = {
-			a: {
-				b: { c: 2 }
-			}
-		};
-		const src = {
-			a: {
-				b: 10,
-				c: { d: 20 }
-			}
-		};
+	
+	it('should deeply replace objects', function () {
+		const tgt = { a: { b: { c: 1 }, c: 1, d: 1 } };
+		const src = { a: { b: 10, c: { d: 20 } } };
 		const res = merge(tgt, src);
-		assert.deepEqual(res, { a: { b: 10, c: { d: 10 } } });
+		assert.deepEqual(res, { a: { b: 10, c: { d: 20 }, d: 1 } });
 	});
 });
+
+// TODO merge arrays
