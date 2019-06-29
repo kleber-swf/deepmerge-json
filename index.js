@@ -3,9 +3,14 @@ const _cloneReplace = function (_, pos) { return Object.assign({}, pos); }
 
 const _mergeObjects = function (pre, pos) {
 	pre = Object.assign({}, pre);
-	Object.keys(pos).forEach(k => {
-		pre[k] = merge(pre[k], pos[k]);
-	});
+	Object.keys(pos).forEach(k =>
+		pre[k] = merge(pre[k], pos[k]));
+	return pre;
+}
+
+const _mergeArrays = function (pre, pos) {
+	pre = pre.slice();
+	pos.forEach((v, i) => pre[i] = v);
 	return pre;
 }
 
@@ -14,7 +19,7 @@ const fn = {
 	oa: _cloneReplace,
 	ob: _replace,
 
-	aa: _mergeObjects,
+	aa: _mergeArrays,
 	ao: null,
 	ab: _replace,
 
@@ -112,19 +117,19 @@ module.exports = merge;
 // console.log('source', b);
 // console.log('result', result);
 
-const tgt = {
-	a: {
-		b: { c: 2 }
-	}
-};
-const src = {
-	a: {
-		b: 10,
-		c: { d: 20 }
-	}
-};
-const res = merge(tgt, src);
+// const tgt = {
+// 	a: {
+// 		b: { c: 2 }
+// 	}
+// };
+// const src = {
+// 	a: {
+// 		b: 10,
+// 		c: { d: 20 }
+// 	}
+// };
+// const res = merge(tgt, src);
 
-console.log(JSON.stringify(tgt, null, 2));
-console.log(JSON.stringify(src, null, 2));
-console.log(JSON.stringify(res, null, 2));
+// console.log(JSON.stringify(tgt, null, 2));
+// console.log(JSON.stringify(src, null, 2));
+// console.log(JSON.stringify(res, null, 2));
