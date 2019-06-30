@@ -1,0 +1,17 @@
+{
+	"replaceElements": {
+		"$set": [{}]
+	},
+	"pushElements": {
+		"$append": [{}]
+	},
+	"prependElements": {
+		"$prepend": [{}]
+	},
+	"mergeOnlyElements": {
+		"3": {}
+	},
+	"removeElements": {
+		"$remove": [0, 1]
+	}
+}

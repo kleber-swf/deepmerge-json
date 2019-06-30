@@ -1,20 +1,20 @@
-const _replace = function (_, pos) { return pos; }
-const _cloneReplace = function (_, pos) { return Object.assign({}, pos); }
+const directReplace = (_, pos) => pos;
+const cloneReplace = (_, pos) => Object.assign({}, pos);
 
-const _mergeObjects = function (pre, pos) {
+const mergeObjects = function (pre, pos) {
 	pre = Object.assign({}, pre);
 	Object.keys(pos).forEach(k =>
 		pre[k] = merge(pre[k], pos[k]));
 	return pre;
 }
 
-const _mergeArrays = function (pre, pos) {
+const mergeArrays = function (pre, pos) {
 	pre = pre.slice();
 	pos.forEach((v, i) => pre[i] = v);
 	return pre;
 }
 
-const _mergeArray2 = function (pre, pos) {
+const mergeArrayWithParams = function (pre, pos) {
 	pre = pre.slice();
 	const key = Object.keys(pos)[0]; // TODO
 	if (key in arrayMergeFn)
@@ -29,35 +29,23 @@ const arrayMergeFn = {
 }
 
 const fn = {
-	oo: _mergeObjects,
-	oa: _cloneReplace,
-	ob: _replace,
+	oo: mergeObjects,
+	oa: cloneReplace,
+	ob: directReplace,
 
-	aa: _mergeArrays,
-	ao: _mergeArray2,
-	ab: _replace,
+	aa: mergeArrays,
+	ao: mergeArrayWithParams,
+	ab: directReplace,
 
-	bb: _replace,
-	bo: _cloneReplace,
-	ba: _cloneReplace
+	bb: directReplace,
+	bo: cloneReplace,
+	ba: cloneReplace
 }
-
-
-
-const getMergeType = function (pre, pos) {
-	const et = Array.isArray(pre) ? 'a' : (typeof pre === 'object' ? 'o' : 'b');
-	const ot = Array.isArray(pos) ? 'a' : (typeof pos === 'object' ? 'o' : 'b');
-	return et + ot;
-}
-
-const _merge = function (pre, pos) {
-	return fn[getMergeType(pre, pos)](pre, pos);
-}
-
 
 const merge = function (target, source) {
-	return _merge(target, source);
+	const tt = Array.isArray(target) ? 'a' : (typeof target === 'object' ? 'o' : 'b');
+	const st = Array.isArray(source) ? 'a' : (typeof source === 'object' ? 'o' : 'b');
+	return fn[tt + st](target, source);
 }
-
 
 module.exports = merge;
