@@ -27,6 +27,7 @@ describe('basic merge', function () {
 		const tgt = { boolValue: false, numberValue: 100, stringValue: 'target' };
 		const src = { boolValue: true, numberValue: 222, stringValue: 'source' };
 		const res = merge(tgt, src);
+
 		assert.notStrictEqual(res, tgt);
 		assert.notStrictEqual(res, src);
 	});
@@ -110,7 +111,51 @@ describe('simple array merge', function () {
 		const tgt = [0, 1, 2];
 		const src = [10, 20, 30];
 		const res = merge(tgt, src);
+
 		assert.notStrictEqual(res, tgt);
 		assert.notStrictEqual(res, src);
 	});
-})
+});
+
+
+describe('complex array merge', function () {
+	it('should append when requested', function () {
+		const tgt = [1, 2, 3];
+		const src = { $append: [10, 20, 30] };
+		const res = merge(tgt, src);
+
+		assert.deepStrictEqual(res, [1, 2, 3, 10, 20, 30]);
+		assert.notEqual(res, tgt);
+		assert.notEqual(res, src);
+	});
+
+	it('should prepend when requested', function () {
+		const tgt = [1, 2, 3];
+		const src = { $prepend: [10, 20, 30] };
+		const res = merge(tgt, src);
+
+		assert.deepStrictEqual(res, [10, 20, 30, 1, 2, 3]);
+		assert.notEqual(res, tgt);
+		assert.notEqual(res, src);
+	});
+
+	it('should replace when requested', function () {
+		const tgt = [1, 2, 3];
+		const src = { $set: [10, 20, 30] };
+		const res = merge(tgt, src);
+
+		assert.deepStrictEqual(res, [10, 20, 30]);
+		assert.notEqual(res, tgt);
+		assert.notEqual(res, src);
+	});
+
+	it('should replace by a unparameterized object', function () {
+		const tgt = { a: [1, 2, 3] };
+		const src = { a: { b: [10, 20, 30] } };
+		const res = merge(tgt, src);
+
+		assert.deepStrictEqual(res, res);
+		assert.notEqual(res, tgt);
+		assert.notEqual(res, src);
+	});
+});
