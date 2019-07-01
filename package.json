@@ -1,14 +1,29 @@
 {
-	"name": "merge-config",
+	"name": "deepmerge-json",
 	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
+	"description": "A library to deep merge json files with array operations",
+	"keywords": [
+		"json",
+		"deep",
+		"merge",
+		"copy",
+		"clone",
+		"extend",
+		"recursive"
+	],
+	"main": "dist/index.js",
+	"author": "",
+	"license": "MIT",
+	"engines": {
+		"node": ">=4.0.0"
+	},
 	"scripts": {
+		"build": "tsc --module umd",
 		"test": "mocha"
 	},
-	"author": "",
-	"license": "ISC",
 	"devDependencies": {
-		"mocha": "^6.1.4"
-	}
+		"mocha": "^6.1.4",
+		"typescript": "^3.5.2"
+	},
+	"dependencies": {}
 }
