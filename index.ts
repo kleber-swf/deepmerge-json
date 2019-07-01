@@ -42,8 +42,10 @@ const fn = {
 	ba: cloneReplace
 }
 
-export default function merge(target: any, source: any) {
+function merge(target: any, source: any) {
 	const tt = Array.isArray(target) ? 'a' : (typeof target === 'object' ? 'o' : 'b');
 	const st = Array.isArray(source) ? 'a' : (typeof source === 'object' ? 'o' : 'b');
 	return fn[tt + st](target, source);
 }
+
+export = merge;

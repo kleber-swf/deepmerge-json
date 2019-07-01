@@ -1,5 +1,5 @@
 const assert = require('assert');
-const merge = require('../index');
+const merge = require('../dist');
 
 describe('basic merge', function () {
 	it('should prefer source values', function () {
