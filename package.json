@@ -12,8 +12,15 @@
 		"recursive"
 	],
 	"main": "dist/index.js",
-	"author": "",
+	"author": "Kleber Silva <kleber.swf@gmail.com>",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kleber-swf/deepmerge-json"
+	},
+	"bugs": {
+		"url": "https://github.com/kleber-swf/deepmerge-json/issues"
+	},
 	"engines": {
 		"node": ">=4.0.0"
 	},
