@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "es2015",
-		"module": "commonjs",
+		"module": "umd",
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
