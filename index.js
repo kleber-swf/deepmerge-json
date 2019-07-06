@@ -44,10 +44,11 @@ const fn = {
 	ba: cloneArray
 }
 
-function merge(target, source) {
-	const tt = Array.isArray(target) ? 'a' : (typeof target === 'object' ? 'o' : 'b');
-	const st = Array.isArray(source) ? 'a' : (typeof source === 'object' ? 'o' : 'b');
-	return fn[tt + st](target, source);
+function merge(pre, pos) {
+	if (!pos) return pos;
+	const tt = Array.isArray(pre) ? 'a' : (typeof pre === 'object' ? 'o' : 'b');
+	const st = Array.isArray(pos) ? 'a' : (typeof pos === 'object' ? 'o' : 'b');
+	return fn[tt + st](pre, pos);
 }
 
 export default merge;
