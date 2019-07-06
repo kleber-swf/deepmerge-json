@@ -1,5 +1,6 @@
 const directReplace = (_, pos) => pos;
 const cloneReplace = (_, pos) => Object.assign({}, pos);
+const cloneArray = (_, pos) => pos.slice();
 
 const mergeObjects = function (pre, pos) {
 	pre = Object.assign({}, pre);
@@ -26,7 +27,7 @@ const arrayMergeFn = {
 	$push: (pre, pos) => pre.concat(pos),
 	$append: (pre, pos) => pre.concat(pos),
 	$prepend: (pre, pos) => pos.concat(pre),
-	$set: (_, pos) => pos.slice()
+	$set: cloneArray
 }
 
 const fn = {
@@ -40,7 +41,7 @@ const fn = {
 
 	bb: directReplace,
 	bo: cloneReplace,
-	ba: cloneReplace
+	ba: cloneArray
 }
 
 function merge(target, source) {
