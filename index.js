@@ -1,20 +1,20 @@
-const directReplace = (_: any, pos: any) => pos;
-const cloneReplace = (_: any, pos: any) => Object.assign({}, pos);
+const directReplace = (_, pos) => pos;
+const cloneReplace = (_, pos) => Object.assign({}, pos);
 
-const mergeObjects = function (pre: any, pos: any) {
+const mergeObjects = function (pre, pos) {
 	pre = Object.assign({}, pre);
 	Object.keys(pos).forEach(k =>
 		pre[k] = merge(pre[k], pos[k]));
 	return pre;
 }
 
-const mergeArrays = function (pre: any[], pos: any[]) {
+const mergeArrays = function (pre, pos) {
 	pre = pre.slice();
 	pos.forEach((v, i) => pre[i] = v);
 	return pre;
 }
 
-const mergeArrayWithParams = function (pre: any[], pos: any) {
+const mergeArrayWithParams = function (pre, pos) {
 	pre = pre.slice();
 	const key = Object.keys(pos)[0]; // (x_x) This is ugly
 	if (key in arrayMergeFn)
@@ -23,9 +23,9 @@ const mergeArrayWithParams = function (pre: any[], pos: any) {
 }
 
 const arrayMergeFn = {
-	$append: (pre: any[], pos: any[]) => pre.concat(pos),
-	$prepend: (pre: any[], pos: any[]) => pos.concat(pre),
-	$set: (_: any, pos: any[]) => pos.slice()
+	$append: (pre, pos) => pre.concat(pos),
+	$prepend: (pre, pos) => pos.concat(pre),
+	$set: (_, pos) => pos.slice()
 }
 
 const fn = {
@@ -42,10 +42,10 @@ const fn = {
 	ba: cloneReplace
 }
 
-function merge(target: any, source: any) {
+function merge(target, source) {
 	const tt = Array.isArray(target) ? 'a' : (typeof target === 'object' ? 'o' : 'b');
 	const st = Array.isArray(source) ? 'a' : (typeof source === 'object' ? 'o' : 'b');
 	return fn[tt + st](target, source);
 }
 
-export = merge;
+export default merge;

@@ -9,7 +9,10 @@
 		"$prepend": [{}]
 	},
 	"mergeOnlyElements": {
-		"3": {}
+		"replace": {
+			"3": {},
+			"7": {}
+		}
 	},
 	"removeElements": {
 		"$remove": [0, 1]

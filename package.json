@@ -25,12 +25,12 @@
 		"node": ">=4.0.0"
 	},
 	"scripts": {
-		"build": "tsc",
+		"build": "rollup -c rollup.config.js",
 		"test": "npm run build; mocha"
 	},
 	"devDependencies": {
 		"mocha": "^6.1.4",
-		"typescript": "^3.5.2"
+		"rollup": "^1.16.6"
 	},
 	"dependencies": {}
 }
