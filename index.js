@@ -23,6 +23,7 @@ const mergeArrayWithParams = function (pre, pos) {
 }
 
 const arrayMergeFn = {
+	$push: (pre, pos) => pre.concat(pos),
 	$append: (pre, pos) => pre.concat(pos),
 	$prepend: (pre, pos) => pos.concat(pre),
 	$set: (_, pos) => pos.slice()
