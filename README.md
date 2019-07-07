@@ -1,5 +1,7 @@
 # Deepmerge Json
 
+[![Build Status](https://travis-ci.org/kleber-swf/deepmerge-json.svg?branch=master)](https://travis-ci.org/kleber-swf/deepmerge-json)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/kleber-swf/deepmerge-json.svg)
 
 A simple library to deep merge json files with array operations. Hugely inspired by the awesome [deepmerge](https://github.com/TehShrike/deepmerge) project.
 
