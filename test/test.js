@@ -1,7 +1,7 @@
 const assert = require('assert');
 const merge = require('../dist');
 
-const falsey = [undefined, null, false, 0, '0', NaN];
+const falsey = [undefined, null, false, 0, '0'];
 
 describe('basic merge', function () {
 	it('should prefer pos values', function () {
