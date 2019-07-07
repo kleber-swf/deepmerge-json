@@ -1,5 +1,6 @@
 # Deepmerge Json
 
+
 A simple library to deep merge json files with array operations. Hugely inspired by the awesome [deepmerge](https://github.com/TehShrike/deepmerge) project.
 
 > Note that you can use to merge javascript objects, but the main reason this library was created was to merge json files with optional special operations for array merging.
@@ -71,12 +72,12 @@ const left = {
   numberValue: 100,
   stringValue: 'target',
   objectValue: {
-	  foo: 0,
-	  bar: 'bar',
-	  baz: {
-		baz1: 1,
-		baz2: 2
-	  }
+    foo: 0,
+    bar: 'bar',
+    baz: {
+      baz1: 1,
+      baz2: 2
+    }
   }
 };
 
@@ -85,10 +86,10 @@ const right = {
   numberValue: 222,
   stringValue: 'source',
   objectValue: {
-	  foo: 'foo',
-	  baz: {
-	    baz3: 3
-	  }
+    foo: 'foo',
+    baz: {
+      baz3: 3
+    }
   }
 };
 
@@ -100,13 +101,13 @@ const res = merge(left, right);
   numberValue: 222,
   stringValue: 'source',
   objectValue: {
-	  foo: 'foo',
-	  bar: 'bar',
-	  baz: {
+    foo: 'foo',
+    bar: 'bar',
+    baz: {
       baz1: 1,
       baz2: 2,
       baz3: 3
-	  }
+    }
   }
 }
 
