@@ -46,14 +46,14 @@ describe('basic merge', function () {
 		const pre = { foo: 20, bar: 'baz' };
 		falsey.forEach(f => {
 			const res = merge(pre, f);
-			assert.deepStrictEqual(res, f);
+			assert.strictEqual(res, f);
 		});
 	});
 
 	it('should accept an empty value for both parameters', function () {
 		falsey.forEach(f => {
 			const res = merge(f, f);
-			assert.deepStrictEqual(res, f);
+			assert.strictEqual(res, f);
 		});
 	});
 });
