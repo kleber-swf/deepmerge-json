@@ -140,9 +140,19 @@ describe('simple array merge', function () {
 
 
 describe('complex array merge', function () {
-	it('should append when requested', function () {
+	it('should append when requested with $append', function () {
 		const pre = [1, 2, 3];
 		const pos = { $append: [10, 20, 30] };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [1, 2, 3, 10, 20, 30]);
+		assert.notEqual(res, pre);
+		assert.notEqual(res, pos);
+	});
+
+	it('should append when requested with $push', function () {
+		const pre = [1, 2, 3];
+		const pos = { $push: [10, 20, 30] };
 		const res = merge(pre, pos);
 
 		assert.deepStrictEqual(res, [1, 2, 3, 10, 20, 30]);
@@ -176,6 +186,55 @@ describe('complex array merge', function () {
 		const res = merge(pre, pos);
 
 		assert.deepStrictEqual(res, pos);
+		assert.notEqual(res, pre);
+		assert.notEqual(res, pos);
+	});
+});
+
+describe('object array merge', function () {
+	it('should merge arrays of objects', function () {
+		const pre = [{ a: 1, b: 2, c: 3 }];
+		const pos = [{ a: 10, b: 20, d: 40 }];
+		const res = merge(pre, pos);
+		assert.deepStrictEqual(res, [{ a: 10, b: 20, c: 3, d: 40 }]);
+	});
+
+	it('should append arrays of objects when requested with $append', function () {
+		const pre = [{ a: 1 }, { b: 2 }, { c: 3 }];
+		const pos = { $append: [{ d: 10 }, { e: 20 }, { f: 30 }] };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [{ a: 1 }, { b: 2 }, { c: 3 }, { d: 10 }, { e: 20 }, { f: 30 }]);
+		assert.notEqual(res, pre);
+		assert.notEqual(res, pos);
+	});
+
+	it('should append arrays of objects when requested with $push', function () {
+		const pre = [{ a: 1 }, { b: 2 }, { c: 3 }];
+		const pos = { $push: [{ d: 10 }, { e: 20 }, { f: 30 }] };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [{ a: 1 }, { b: 2 }, { c: 3 }, { d: 10 }, { e: 20 }, { f: 30 }]);
+		assert.notEqual(res, pre);
+		assert.notEqual(res, pos);
+	});
+
+	it('should prepend arrays of objects when requested', function () {
+		const pre = [{ a: 1 }, { b: 2 }, { c: 3 }];
+		const pos = { $prepend: [{ d: 10 }, { e: 20 }, { f: 30 }] };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [{ d: 10 }, { e: 20 }, { f: 30 }, { a: 1 }, { b: 2 }, { c: 3 }]);
+		assert.notEqual(res, pre);
+		assert.notEqual(res, pos);
+	});
+
+	it('should replace array objects when requested', function () {
+		const pre = [{ a: 1 }, { b: 2 }, { c: 3 }];
+		const pos = { $set: [{ d: 10 }, { e: 20 }, { f: 30 }] };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [{ d: 10 }, { e: 20 }, { f: 30 }]);
 		assert.notEqual(res, pre);
 		assert.notEqual(res, pos);
 	});

@@ -11,7 +11,7 @@ const mergeObjects = function (pre, pos) {
 
 const mergeArrays = function (pre, pos) {
 	pre = pre.slice();
-	pos.forEach((v, i) => pre[i] = v);
+	pos.forEach((v, i) => pre[i] = merge(pre[i], v));
 	return pre;
 }
 
@@ -52,3 +52,4 @@ function merge(pre, pos) {
 }
 
 export default merge;
+
