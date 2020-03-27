@@ -195,6 +195,20 @@ const result = merge(left, right);
 ```
 
 
+#### $replace
+
+Use `$replace` to replace or add indexed elements by their indexes.
+
+```js
+const left = [10, 20, 30];
+const right = { $replace: { 0: 100, 2: 300, 4: 400 } };
+const result = merge(left, right);
+
+// Result (note that the element with index 3 was never given)
+[100, 20, 300, , 400]
+```
+
+
 #### Skipping elements
 
 If you skip some elements in the "right" array, the respective "left" elements will be kept in the result. This is not very useful for json merging since it's ot possible to create a sparse array _per se_, but it's a nice consequence of the `merge` method.
