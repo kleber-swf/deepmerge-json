@@ -189,7 +189,6 @@ describe('complex array merge', function() {
 	});
 });
 
-// TODO test with undefined as pos
 describe('object array merge', function() {
 	it('should merge arrays of objects', function() {
 		const pre = [{ a: 1, b: { b1: 1, b2: 1 }, c: [1, 2], d: [{ d1: 1 }, { d1: 3 }] }];
@@ -199,6 +198,8 @@ describe('object array merge', function() {
 		assert.deepStrictEqual(res, [
 			{ a: 10, b: { b1: 1, b2: 2, b3: 3 }, c: [3, 4], d: [{ d1: 1, d2: 2 }, { d1: 3 }, { d1: 4 }] }
 		]);
+		assert.notEqual(res, pre);
+		assert.notEqual(res, pos);
 	});
 
 	it('should append arrays of objects when requested with $append', function() {
@@ -255,6 +256,7 @@ describe('object array merge', function() {
 		const pre = [0, 1, 2];
 		const pos = { $replace: { 3: 3, 5: 5 } };
 		const res = merge(pre, pos);
+		
 		assert.deepStrictEqual(res, [0, 1, 2, 3, , 5]);
 		assert.notEqual(res, pre);
 		assert.notEqual(res, pos);
