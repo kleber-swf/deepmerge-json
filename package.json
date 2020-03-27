@@ -1,6 +1,6 @@
 {
 	"name": "deepmerge-json",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "A library to deep merge json files with array operations",
 	"keywords": [
 		"json",
