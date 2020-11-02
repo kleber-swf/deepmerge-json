@@ -1,7 +1,7 @@
 const pkg = require(`./package.json`)
 
 export default {
-	input: 'index.js',
+	input: 'src/deepmerge-json.js',
 	output: {
 		name: 'merge',
 		file: pkg.main,

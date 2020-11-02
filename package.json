@@ -1,17 +1,20 @@
 {
 	"name": "deepmerge-json",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "A library to deep merge json files with array operations",
 	"keywords": [
 		"json",
 		"deep",
 		"merge",
+		"deep-merge",
+		"deepmerge",
 		"copy",
 		"clone",
 		"extend",
 		"recursive"
 	],
-	"main": "dist/index.js",
+	"main": "dist/deepmerge-json.js",
+	"types": "dist/deepmerge-json.d.ts",
 	"author": "Kleber Silva <kleber.swf@gmail.com>",
 	"license": "MIT",
 	"repository": {
@@ -26,7 +29,8 @@
 	},
 	"scripts": {
 		"build": "rollup -c rollup.config.js",
-		"test": "npm run build; mocha"
+		"test": "mocha",
+		"pretest": "npm run build"
 	},
 	"devDependencies": {
 		"mocha": "^6.2.3",
