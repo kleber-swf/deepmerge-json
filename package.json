@@ -14,7 +14,7 @@
 		"recursive"
 	],
 	"main": "dist/deepmerge-json.js",
-	"types": "dist/deepmerge-json.d.ts",
+	"types": "src/deepmerge-json.d.ts",
 	"author": "Kleber Silva <kleber.swf@gmail.com>",
 	"license": "MIT",
 	"repository": {
