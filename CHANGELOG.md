@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.3] - 2021-08-05
+### Changed
+* Now `$replace` accept string numeric keys 
+
 ## [1.1.1] - 2020-11-02
 ### Changed
 * Changed the name of the generated artifacts for better integration with other libraries

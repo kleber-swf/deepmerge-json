@@ -261,4 +261,24 @@ describe('object array merge', function () {
 		assert.notStrictEqual(res, pre);
 		assert.notStrictEqual(res, pos);
 	});
+
+	it('should replace string indexed elements when requested with $replace', function () {
+		const pre = [{ a: 1 }, { b: 2 }, { c: 3, cc: { c1: 1, c2: 2 } }];
+		const pos = { $replace: { '0': { a: 2 }, '2': { c: 2, cc: { c1: 2, c3: 2 } } } };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [{ a: 2 }, { b: 2 }, { c: 2, cc: { c1: 2, c2: 2, c3: 2 } }]);
+		assert.notStrictEqual(res, pre);
+		assert.notStrictEqual(res, pos);
+	});
+
+	it('should add string indexed elements when requested with $replace', function () {
+		const pre = [0, 1, 2];
+		const pos = { $replace: { '3': 3, '5': 5 } };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [0, 1, 2, 3, , 5]);
+		assert.notStrictEqual(res, pre);
+		assert.notStrictEqual(res, pos);
+	});
 });

@@ -2,28 +2,29 @@ const directReplace = (_, pos) => pos;
 const cloneReplace = (_, pos) => Object.assign({}, pos);
 const cloneArray = (_, pos) => pos.slice();
 
-const mergeObjects = function(pre, pos) {
+const mergeObjects = function (pre, pos) {
 	pre = Object.assign({}, pre);
 	Object.keys(pos).forEach(k => (pre[k] = merge(pre[k], pos[k])));
 	return pre;
 };
 
-const mergeArrays = function(pre, pos) {
+const mergeArrays = function (pre, pos) {
 	pre = pre.slice();
 	pos.forEach((v, i) => (pre[i] = merge(pre[i], v)));
 	return pre;
 };
 
-const mergeArrayWithParams = function(pre, pos) {
-	pre = pre.slice();
+const mergeArrayWithParams = function (pre, pos) {
 	const key = Object.keys(pos)[0]; // (x_x) This is ugly
-	if (key in arrayMergeFn) return arrayMergeFn[key](pre, pos[key]);
-	return pos;	// TODO shouldn't this be pre?
+	return key in arrayMergeFn
+		? arrayMergeFn[key](pre.slice(), pos[key])
+		: pos;
 };
 
-const indexedReplace = function(pre, pos) {
+const indexedReplace = function (pre, pos) {
 	pre = pre.slice();
 	Object.keys(pos).forEach(k => {
+		k = Number.parseInt(k);
 		pre[k] = merge(pre[k], pos[k]);
 	});
 	return pre;
