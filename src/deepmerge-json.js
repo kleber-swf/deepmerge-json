@@ -18,7 +18,7 @@ const mergeArrayWithParams = function(pre, pos) {
 	pre = pre.slice();
 	const key = Object.keys(pos)[0]; // (x_x) This is ugly
 	if (key in arrayMergeFn) return arrayMergeFn[key](pre, pos[key]);
-	return pos;
+	return pos;	// TODO shouldn't this be pre?
 };
 
 const indexedReplace = function(pre, pos) {

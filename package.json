@@ -14,6 +14,7 @@
 		"recursive"
 	],
 	"main": "dist/deepmerge-json.js",
+	"min": "dist/deepmerge-json.min.js",
 	"types": "src/deepmerge-json.d.ts",
 	"author": "Kleber Silva <kleber.swf@gmail.com>",
 	"license": "MIT",
@@ -33,8 +34,8 @@
 		"pretest": "npm run build"
 	},
 	"devDependencies": {
-		"mocha": "^6.2.3",
-		"rollup": "^1.32.1"
-	},
-	"dependencies": {}
+		"mocha": "^9.0.3",
+		"rollup": "^2.55.1",
+		"rollup-plugin-terser": "^7.0.2"
+	}
 }
