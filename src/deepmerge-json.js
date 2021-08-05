@@ -2,29 +2,43 @@ const directReplace = (_, pos) => pos;
 const cloneReplace = (_, pos) => Object.assign({}, pos);
 const cloneArray = (_, pos) => pos.slice();
 
-const mergeObjects = function(pre, pos) {
+const mergeObjects = function (pre, pos) {
 	pre = Object.assign({}, pre);
 	Object.keys(pos).forEach(k => (pre[k] = merge(pre[k], pos[k])));
 	return pre;
 };
 
-const mergeArrays = function(pre, pos) {
+const mergeArrays = function (pre, pos) {
 	pre = pre.slice();
 	pos.forEach((v, i) => (pre[i] = merge(pre[i], v)));
 	return pre;
 };
 
-const mergeArrayWithParams = function(pre, pos) {
-	pre = pre.slice();
+const mergeArrayWithParams = function (pre, pos) {
 	const key = Object.keys(pos)[0]; // (x_x) This is ugly
-	if (key in arrayMergeFn) return arrayMergeFn[key](pre, pos[key]);
-	return pos;
+	return key in arrayMergeFn
+		? arrayMergeFn[key](pre.slice(), pos[key])
+		: pos;
 };
 
-const indexedReplace = function(pre, pos) {
+const indexedReplace = function (pre, pos) {
 	pre = pre.slice();
+	let kn;
 	Object.keys(pos).forEach(k => {
-		pre[k] = merge(pre[k], pos[k]);
+		kn = Number.parseInt(k);
+		if (kn < 0 || Number.isNaN(kn)) throw Error(`Invalid index for $replace: ${k}`);
+		pre[kn] = merge(pre[kn], pos[k]);
+	});
+	return pre;
+};
+
+const insert = function (pre, pos) {
+	pre = pre.slice();
+	let kn;
+	Object.keys(pos).forEach(k => {
+		kn = Number.parseInt(k);
+		if (kn < 0 || Number.isNaN(kn)) throw Error(`Invalid index for $insert: ${k}`);
+		pre.splice(kn, 0, pos[k]);
 	});
 	return pre;
 };
@@ -34,6 +48,7 @@ const arrayMergeFn = {
 	$append: (pre, pos) => pre.concat(pos),
 	$prepend: (pre, pos) => pos.concat(pre),
 	$replace: indexedReplace,
+	$insert: insert,
 	$set: cloneArray
 };
 

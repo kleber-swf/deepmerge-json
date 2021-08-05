@@ -167,7 +167,7 @@ const result = merge(left, right);
 
 #### #prepend
 
-Similarly, you can use the property `$prepend` to add elements to the beginning od the "left" array.
+Similarly, you can use the property `$prepend` to add elements to the beginning of the "left" array.
 
 ```js
 const left = [0, 1, 2];
@@ -197,15 +197,46 @@ const result = merge(left, right);
 
 #### $replace
 
-Use `$replace` to replace or add indexed elements by their indexes.
+Use `$replace` to replace or add indexed elements by their indexes. Indexes can be numbers or strings and cannot be less than 0 or `NaN` values.
 
 ```js
 const left = [10, 20, 30];
-const right = { $replace: { 0: 100, 2: 300, 4: 400 } };
+const right = { $replace: { 0: 100, '2': 300, 4: 400 } };
 const result = merge(left, right);
 
 // Result (note that the element with index 3 was never given)
 [100, 20, 300, , 400]
+```
+
+```js
+const left = [10, 20, 30];
+const right = { $replace: { null: 100, 'foo': 300, true: 400 } };
+const result = merge(left, right);
+
+// throws an Error
+```
+
+
+#### $insert
+
+Use `$insert` to insert indexed elements at their indexes. Indexes can be numbers or strings and cannot be less than 0 or `NaN` values. Notive that elements change places as you insert them.
+
+```js
+const left = [10, 20, 30];
+const right = { $insert: { 0: 100, 2: 200, 10: 400 } };
+const result = merge(left, right);
+
+// Result (notice that the elements moved and the 400 was added to the last index)
+[ 100, 10, 200, 20, 30, 400 ]
+```
+
+
+```js
+const left = [10, 20, 30];
+const right = { $insert: { null: 100, 'foo': 300, true: 400 } };
+const result = merge(left, right);
+
+// throws an Error
 ```
 
 

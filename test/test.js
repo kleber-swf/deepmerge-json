@@ -261,4 +261,82 @@ describe('object array merge', function () {
 		assert.notStrictEqual(res, pre);
 		assert.notStrictEqual(res, pos);
 	});
+
+	it('should replace string indexed elements when requested with $replace', function () {
+		const pre = [{ a: 1 }, { b: 2 }, { c: 3, cc: { c1: 1, c2: 2 } }];
+		const pos = { $replace: { '0': { a: 2 }, '2': { c: 2, cc: { c1: 2, c3: 2 } } } };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [{ a: 2 }, { b: 2 }, { c: 2, cc: { c1: 2, c2: 2, c3: 2 } }]);
+		assert.notStrictEqual(res, pre);
+		assert.notStrictEqual(res, pos);
+	});
+
+	it('should add string indexed elements when requested with $replace', function () {
+		const pre = [0, 1, 2];
+		const pos = { $replace: { '3': 3, '5': 5 } };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [0, 1, 2, 3, , 5]);
+		assert.notStrictEqual(res, pre);
+		assert.notStrictEqual(res, pos);
+	});
+
+	it('should throw exception for invalid indexes on $replace', function () {
+		const pre = [0, 1, 2];
+
+		assert.throws(() => merge(pre, { $replace: { '-1': 0 } }),
+			Error('Invalid index for $replace: -1'));
+		
+		assert.throws(() => merge(pre, { $replace: { 'foo': 0 } }),
+			Error('Invalid index for $replace: foo'));
+		
+		assert.throws(() => merge(pre, { $replace: { undefined: 0 } }),
+			Error('Invalid index for $replace: undefined'));
+		
+		assert.throws(() => merge(pre, { $replace: { null: 0 } }),
+			Error('Invalid index for $replace: null'));
+		
+		assert.throws(() => merge(pre, { $replace: { true: 0 } }),
+			Error('Invalid index for $replace: true'));
+	});
+
+	it('should insert elements at given indexes with $insert', function () {
+		const pre = [1, 2];
+		const pos = { $insert: { 0: 0, 3: 3, 5: 5, 10: 10 } };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [0, 1, 2, 3, 5, 10]);
+		assert.notStrictEqual(res, pre);
+		assert.notStrictEqual(res, pos);
+	});
+
+	it('should insert elements at given string indexes with $insert', function () {
+		const pre = [1, 2];
+		const pos = { $insert: { '0': 0, '3': 3, '5': 5, '10': 10 } };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [0, 1, 2, 3, 5, 10]);
+		assert.notStrictEqual(res, pre);
+		assert.notStrictEqual(res, pos);
+	});
+
+	it('should throw exception for invalid indexes on $insert', function () {
+		const pre = [0, 1, 2];
+
+		assert.throws(() => merge(pre, { $insert: { '-1': 0 } }),
+			Error('Invalid index for $insert: -1'));
+
+		assert.throws(() => merge(pre, { $insert: { 'foo': 0 } }),
+			Error('Invalid index for $insert: foo'));
+
+		assert.throws(() => merge(pre, { $insert: { undefined: 0 } }),
+			Error('Invalid index for $insert: undefined'));
+
+		assert.throws(() => merge(pre, { $insert: { null: 0 } }),
+			Error('Invalid index for $insert: null'));
+
+		assert.throws(() => merge(pre, { $insert: { true: 0 } }),
+			Error('Invalid index for $insert: true'));
+	});
 });
