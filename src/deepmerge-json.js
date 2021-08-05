@@ -23,9 +23,22 @@ const mergeArrayWithParams = function (pre, pos) {
 
 const indexedReplace = function (pre, pos) {
 	pre = pre.slice();
+	let kn;
 	Object.keys(pos).forEach(k => {
-		k = Number.parseInt(k);
-		pre[k] = merge(pre[k], pos[k]);
+		kn = Number.parseInt(k);
+		if (kn < 0 || Number.isNaN(kn)) throw Error(`Invalid index for $replace: ${k}`);
+		pre[kn] = merge(pre[kn], pos[k]);
+	});
+	return pre;
+};
+
+const insert = function (pre, pos) {
+	pre = pre.slice();
+	let kn;
+	Object.keys(pos).forEach(k => {
+		kn = Number.parseInt(k);
+		if (kn < 0 || Number.isNaN(kn)) throw Error(`Invalid index for $insert: ${k}`);
+		pre.splice(kn, 0, pos[k]);
 	});
 	return pre;
 };
@@ -35,6 +48,7 @@ const arrayMergeFn = {
 	$append: (pre, pos) => pre.concat(pos),
 	$prepend: (pre, pos) => pos.concat(pre),
 	$replace: indexedReplace,
+	$insert: insert,
 	$set: cloneArray
 };
 
