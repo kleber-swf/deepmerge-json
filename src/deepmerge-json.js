@@ -37,7 +37,7 @@ const insert = function (pre, pos) {
 	let kn;
 	Object.keys(pos).forEach(k => {
 		kn = Number.parseInt(k);
-		if (kn < 0 || Number.isNaN(kn)) throw Error(`Invalid index for $insert: ${k}`);
+		if (Number.isNaN(kn)) throw Error(`Invalid index for $insert: ${k}`);
 		pre.splice(kn, 0, pos[k]);
 	});
 	return pre;

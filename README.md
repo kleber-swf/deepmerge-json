@@ -43,6 +43,8 @@ console.log(result);
 
 ## Installation
 
+
+### With NPM
 ```sh
 npm install deepmerge-json
 ```
@@ -57,6 +59,15 @@ const merge = require('deepmerge-json');
 ```
 
 There is even a Typescript `d.ts` definition file to support auto complete.
+
+
+### With a CDN
+
+Just add this line to your HTML file:
+
+```html
+<script src="https://unpkg.com/deepmerge-json@latest/dist/deepmerge-json.min.js></script>
+```
 
 
 ## Usage
@@ -199,6 +210,7 @@ const result = merge(left, right);
 
 Use `$replace` to replace or add indexed elements by their indexes. Indexes can be numbers or strings and cannot be less than 0 or `NaN` values.
 
+With valid indexes:
 ```js
 const left = [10, 20, 30];
 const right = { $replace: { 0: 100, '2': 300, 4: 400 } };
@@ -208,9 +220,10 @@ const result = merge(left, right);
 [100, 20, 300, , 400]
 ```
 
+With invalid indexes:
 ```js
 const left = [10, 20, 30];
-const right = { $replace: { null: 100, 'foo': 300, true: 400 } };
+const right = { $replace: { null: 0, 'foo': 0, true: 0, '-1': 0 } };
 const result = merge(left, right);
 
 // throws an Error
@@ -219,8 +232,9 @@ const result = merge(left, right);
 
 #### $insert
 
-Use `$insert` to insert indexed elements at their indexes. Indexes can be numbers or strings and cannot be less than 0 or `NaN` values. Notive that elements change places as you insert them.
+Use `$insert` to insert indexed elements at their indexes. Indexes can be numbers or strings and cannot `NaN` values. Notice that elements change places as you insert them. Negative numbers insert them to the end of the array. See [Array.splice](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice).
 
+With positive indexes:
 ```js
 const left = [10, 20, 30];
 const right = { $insert: { 0: 100, 2: 200, 10: 400 } };
@@ -230,7 +244,17 @@ const result = merge(left, right);
 [ 100, 10, 200, 20, 30, 400 ]
 ```
 
+With negative indexes:
+```js
+const left = [10, 20, 30];
+const right = { $insert: { '-1': 100, '-2': 200, '-10': 0 } };
+const result = merge(left, right);
 
+// Result
+[ 0, 10, 20, 200, 100, 30 ]
+```
+
+With invalid indexes:
 ```js
 const left = [10, 20, 30];
 const right = { $insert: { null: 100, 'foo': 300, true: 400 } };

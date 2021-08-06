@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0] - 2021-08-06
+
+### Changed
+* Added support to negative indexes to `$insert` operation
+
+---
+
 ## [1.1.3] - 2021-08-05
 
 ### Added
@@ -45,6 +52,7 @@
 Initial version
 
 
+[1.2.0]: https://github.com/kleber-swf/deepmerge-json/tree/v1.2.0
 [1.1.3]: https://github.com/kleber-swf/deepmerge-json/tree/v1.1.3
 [1.1.1]: https://github.com/kleber-swf/deepmerge-json/tree/v1.1.1
 [1.1.0]: https://github.com/kleber-swf/deepmerge-json/tree/v1.1.0
