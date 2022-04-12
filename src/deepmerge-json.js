@@ -71,11 +71,13 @@ const fn = {
 };
 
 function merge(pre, pos) {
-	if (pos == null) {
+	if (pos === undefined) {
 		if (pre == null) return pre;
 		if (Array.isArray(pre)) pos = [];
 		else if (typeof pre === 'object') pos = {};
 		else pos = pre;
+	} else if (pos === null) {
+		return null;
 	}
 	const tt = Array.isArray(pre) ? 'a' : typeof pre === 'object' ? 'o' : 'b';
 	const st = Array.isArray(pos) ? 'a' : typeof pos === 'object' ? 'o' : 'b';
