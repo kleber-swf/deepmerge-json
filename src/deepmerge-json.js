@@ -15,10 +15,14 @@ const mergeArrays = function (pre, pos) {
 };
 
 const mergeArrayWithParams = function (pre, pos) {
-	const key = Object.keys(pos)[0]; // (x_x) This is ugly
-	return key in arrayMergeFn
-		? arrayMergeFn[key](pre.slice(), pos[key])
-		: pos;
+	let result = pre.slice();
+	Object.keys(pos).forEach(key => {
+		result = key in arrayMergeFn
+			? arrayMergeFn[key](result, pos[key])
+			: pos;
+	});
+
+	return result;
 };
 
 const indexedReplace = function (pre, pos) {

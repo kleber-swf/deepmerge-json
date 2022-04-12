@@ -41,27 +41,29 @@ console.log(result);
 
 **Explanation:** it deeply merges `right` object into `left` without altering them and their properties. Everything is cloned. Arrays elements are merged based on `right` parameters passed as objects.
 
-## Installation
+# Installation
 
+## With NPM
 
-### With NPM
 ```sh
 npm install deepmerge-json
 ```
 
 After that you can import it:
+
 ```js
 import merge from 'deepmerge-json';
 ```
+
 or
+
 ```js
 const merge = require('deepmerge-json');
 ```
 
 There is even a Typescript `d.ts` definition file to support auto complete.
 
-
-### With a CDN
+## With a CDN
 
 Just add this line to your HTML file:
 
@@ -69,13 +71,11 @@ Just add this line to your HTML file:
 <script src="https://unpkg.com/deepmerge-json@latest/dist/deepmerge-json.min.js></script>
 ```
 
-
-## Usage
+# Usage
 
 The main reason this library was created was to mimic and extend some array merging functions from mongodb when merging two sets of properties json files.
 
-
-### Simple merge
+## Simple merge
 
 It is possible to merge recursively all types of properties.
 
@@ -109,7 +109,7 @@ const right = {
 const res = merge(left, right);
 
 // result
-{ 
+{
   boolValue: true,
   numberValue: 222,
   stringValue: 'source',
@@ -126,17 +126,15 @@ const res = merge(left, right);
 
 ```
 
-
-### Array merge
+## Array merge
 
 Merging arrays are special because sometimes you want to append elements, sometimes prepend and sometimes you want to merge them.
 
 Mongodb handles this nicely (IMHO). It has a [`$push` property](https://docs.mongodb.com/manual/reference/operator/update/push/) (among others) that let you append elements to an array when updating a document.
 
-Inspired on that this library has the following merging methods (note that to be merged, the arrays can have any depth as long as they have the same path):
+Inspired on that, this library has some merging methods (here called **operations**) to help you merge or improve the arrays from the original object. Just keep in mind that no matter the depth of the array, you just need to have the same path to the objects you want to merge.
 
-
-#### Merge elements
+### Merging elements
 
 This is the default behavior. It merges the arrays elements one by one. It will add elements to the end if there more on the right than on the left element.
 
@@ -151,7 +149,7 @@ const right = {
   bar: [10, 20, 30]
 };
 
-const result = merge(left, right) 
+const result = merge(left, right)
 
 // Result
 {
@@ -160,10 +158,9 @@ const result = merge(left, right)
 }
 ```
 
+### $push / $append
 
-#### #push / #append
-
-You can use the special property `$push` or `$append` to add elements to the end of the "left" array.
+You can use the `$push` or `$append` operation to add elements to the end of the "left" array.
 
 ```js
 const left = [0, 1, 2];
@@ -171,14 +168,12 @@ const right = { $push: [3, 4, 5] };
 const result = merge(left, right);
 
 // Result
-[0, 1, 2, 3, 4, 5]
-
+[0, 1, 2, 3, 4, 5];
 ```
 
+### $prepend
 
-#### #prepend
-
-Similarly, you can use the property `$prepend` to add elements to the beginning of the "left" array.
+Similarly, you can use `$prepend` operation to add elements to the beginning of the "left" array.
 
 ```js
 const left = [0, 1, 2];
@@ -186,14 +181,12 @@ const right = { $prepend: [-2, -1] };
 const result = merge(left, right);
 
 // Result
-[-2, -1, 0, 1, 2]
-
+[-2, -1, 0, 1, 2];
 ```
 
+### $set
 
-#### #set
-
-Use `#set` when you want to completely replace "left" array by the "right" one.
+Use `$set` when you want to completely replace "left" array by the "right" one.
 
 ```js
 const left = [0, 1, 2, 3, 4, 5, 6];
@@ -201,70 +194,71 @@ const right = { $set: [10, 20] };
 const result = merge(left, right);
 
 // Result
-[10, 20]
-
+[10, 20];
 ```
 
-
-#### $replace
+### $replace
 
 Use `$replace` to replace or add indexed elements by their indexes. Indexes can be numbers or strings and cannot be less than 0 or `NaN` values.
 
 With valid indexes:
+
 ```js
 const left = [10, 20, 30];
-const right = { $replace: { 0: 100, '2': 300, 4: 400 } };
+const right = { $replace: { 0: 100, 2: 300, 4: 400 } };
 const result = merge(left, right);
 
 // Result (note that the element with index 3 was never given)
-[100, 20, 300, , 400]
+[100, 20, 300, , 400];
 ```
 
 With invalid indexes:
+
 ```js
 const left = [10, 20, 30];
-const right = { $replace: { null: 0, 'foo': 0, true: 0, '-1': 0 } };
+const right = { $replace: { null: 0, foo: 0, true: 0, '-1': 0 } };
 const result = merge(left, right);
 
 // throws an Error
 ```
 
-
-#### $insert
+### $insert
 
 Use `$insert` to insert indexed elements at their indexes. Indexes can be numbers or strings and cannot `NaN` values. Notice that elements change places as you insert them. Negative numbers insert them to the end of the array. See [Array.splice](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice).
 
 With positive indexes:
+
 ```js
 const left = [10, 20, 30];
 const right = { $insert: { 0: 100, 2: 200, 10: 400 } };
 const result = merge(left, right);
 
 // Result (notice that the elements moved and the 400 was added to the last index)
-[ 100, 10, 200, 20, 30, 400 ]
+[100, 10, 200, 20, 30, 400];
 ```
 
 With negative indexes:
+
 ```js
 const left = [10, 20, 30];
 const right = { $insert: { '-1': 100, '-2': 200, '-10': 0 } };
 const result = merge(left, right);
 
 // Result
-[ 0, 10, 20, 200, 100, 30 ]
+[0, 10, 20, 200, 100, 30];
 ```
 
 With invalid indexes:
+
 ```js
 const left = [10, 20, 30];
-const right = { $insert: { null: 100, 'foo': 300, true: 400 } };
+const right = { $insert: { null: 100, foo: 300, true: 400 } };
 const result = merge(left, right);
 
 // throws an Error
 ```
 
-
-#### Skipping elements
+### Skipping elements
 
 If you skip some elements in the "right" array, the respective "left" elements will be kept in the result. This is not very useful for json merging since it's ot possible to create a sparse array _per se_, but it's a nice consequence of the `merge` method.
 
@@ -274,18 +268,45 @@ const right = [10, , 30, , 50];
 const result = merge(left, right);
 
 // Result
-[10, 20, 30, 40, 50, 60]
-
+[10, 20, 30, 40, 50, 60];
 ```
 
-### Options
+### Multiple operations
 
-For now, no options yet.
+Starting from version `1.3.0` it's possible to use multiple operations at once. They are executed in place and in order.
 
+```js
+const left = [2, 3, 4];
+const right: {
+  $prepend: [0, 1],
+  $append: [5, 6],
+  $replace: { 0: 100 };
+}
+const result = merge(left, right);
 
-## Contributing
+// Result
+[100, 1, 2, 3, 4, 5, 6]
+```
+
+```js
+const left = [2, 3, 4];
+const right: {
+  $replace: { 0: 100 };
+  $prepend: [0, 1],
+  $append: [5, 6],
+}
+const result = merge(left, right);
+
+// Result
+[0, 1, 100, 3, 4, 5, 6]
+```
+
+## Options
+
+For now, no options yet :chipmunk:.
+
+# Contributing
 
 If you are nice enough you can submit bugs and features to the issue board and make this lib great and useful for you and the community.
 
 But if you are really nice you can submit a PR and make this lib awesome!
-
