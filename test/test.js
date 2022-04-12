@@ -346,4 +346,12 @@ describe('object array merge', function () {
 		assert.throws(() => merge(pre, { $insert: { true: 0 } }),
 			Error('Invalid index for $insert: true'));
 	});
+
+	it('should merge with multiple operations', function () {
+		const pre = [2, 3, 4];
+		const pos = { $prepend: [0, 1], $append: [5, 6], $replace: { 0: 100 } };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [100, 1, 2, 3, 4, 5, 6]);
+	})
 });
