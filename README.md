@@ -75,7 +75,7 @@ Just add this line to your HTML file:
 
 The main reason this library was created was to mimic and extend some array merging functions from mongodb when merging two sets of properties json files.
 
-## Simple merge
+## Simple Merge
 
 It is possible to merge recursively all types of properties.
 
@@ -133,7 +133,7 @@ Notice that if you pass anything other than `undefined` to the second parameter 
 
 You can also use the `merge.clone()` method which is an alias to the `merge` method with a single parameter. It's also more semantically meaningful.
 
-## Array merge
+## Array Merge
 
 Merging arrays are special because sometimes you want to append elements, sometimes prepend and sometimes you want to merge them.
 
@@ -141,7 +141,7 @@ Mongodb handles this nicely (IMHO). It has a [`$push` property](https://docs.mon
 
 Inspired on that, this library has some merging methods (here called **operations**) to help you merge or improve the arrays from the original object. Just keep in mind that no matter the depth of the array, you just need to have the same path to the objects you want to merge.
 
-### Merging elements
+### Merging Elements
 
 This is the default behavior. It merges the arrays elements one by one. It will add elements to the end if there more on the right than on the left element.
 
@@ -265,7 +265,7 @@ const result = merge(left, right);
 // throws an Error
 ```
 
-### Skipping elements
+### Skipping Elements
 
 If you skip some elements in the "right" array, the respective "left" elements will be kept in the result. This is not very useful for json merging since it's ot possible to create a sparse array _per se_, but it's a nice consequence of the `merge` method.
 
@@ -278,7 +278,7 @@ const result = merge(left, right);
 [10, 20, 30, 40, 50, 60];
 ```
 
-### Multiple operations
+### Multiple Operations
 
 Starting from version `1.3.0` it's possible to use multiple operations at once. They are executed in place and in order.
 
@@ -308,6 +308,21 @@ const result = merge(left, right);
 [0, 1, 100, 3, 4, 5, 6]
 ```
 
+## Merging Multiple Objects
+
+You can also merge multiple objects with the help of the utility method `merge.multi()`. It respects the order of the parameters and the operations just like expected if you call `merge` multiple times passing the last result as the first parameter to the next call.
+
+```js
+const obj1 = { a: 0, b: [true, { c: 'ok' }] };
+const obj2 = { a: 10, d: false };
+const obj3 = { a: 20, b: { $push: [42] } };
+
+const result = merge.multi(obj1, obj2, obj3);
+
+// Result
+{ a: 20, b: [true, { c: 'ok' }, 42], d: false }
+```
+
 ## Options
 
 For now, no options yet :chipmunk:.
@@ -323,16 +338,17 @@ But if you are really nice you can submit a PR and make this lib awesome!
 Just a fun performance test with a 1 million runs. I'm not a performance expert so they might not be very precise.
 
 Testing machine:
-* CPU: Intel Core i5-9300H @ 2.4GHz x8
-* Memory: 32GB
-* SO: Ubuntu 20.04.4 LTS
 
-Measures              | Node 17.7.2 | Chrome 100.0.4896.75 | Firefox 99.0 <sup>2</sup> :thinking: |
-----------------------|-------------|----------------------|---------------------------------------
+-   CPU: Intel Core i5-9300H @ 2.4GHz x8
+-   Memory: 32GB
+-   SO: Ubuntu 20.04.4 LTS
+
+| Measures            | Node 17.7.2 | Chrome 100.0.4896.75 | Firefox 99.0 <sup>2</sup> :thinking: |
+| ------------------- | ----------- | -------------------- | ------------------------------------ |
 | Max. Value          | 279763.93   | 295386.07            | 852514.92                            |
 | Min. Value          | 277344.35   | 287802.91            | 827814.57                            |
 | Average<sup>1</sup> | 279574.05   | 293929.66            | 840884.13                            |
 
-* Operations per second
-* <sup>1</sup> The average is calculated removing the maximum and the minimum values
-* <sup>2</sup> For some reason Firefox returned a really good but suspicious performance
+-   Operations per second
+-   <sup>1</sup> The average is calculated removing the maximum and the minimum values
+-   <sup>2</sup> For some reason Firefox returned a really good but suspicious performance
