@@ -131,6 +131,8 @@ You can clone an object omitting the second parameter. This will execute the `me
 
 Notice that if you pass anything other than `undefined` to the second parameter (even `null`), it will be actively used in the merge process.
 
+You can also use the `merge.clone()` method which is an alias to the `merge` method with a single parameter. It's also more semantically meaningful.
+
 ## Array merge
 
 Merging arrays are special because sometimes you want to append elements, sometimes prepend and sometimes you want to merge them.
