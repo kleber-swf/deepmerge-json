@@ -421,3 +421,29 @@ describe('utils: clone', function () {
 	});
 });
 
+
+describe('utils: merge multi', function () {
+	it('should merge arrays respecting operations', function () {
+		const obj1 = [0, 1, 2, 3, 4, 5];
+		const obj2 = [, 10, 20];
+		const obj3 = { $prepend: [-2, -1], $append: [6, 7] };
+		const obj4 = { $insert: { 7: 70 } };
+
+		const expected = [-2, -1, 0, 10, 20, 3, 4, 70, 5, 6, 7];
+		const res = merge.multi(obj1, obj2, obj3, obj4);
+
+		assert.deepStrictEqual(res, expected);
+	});
+
+	it('should merge multiple objects', function () {
+		const obj1 = { a: 0, b: 1, c: 2, d: { e: true }, f: [0, 1, 2] };
+		const obj2 = { a: 0, b: 10 };
+		const obj3 = { f: { $append: [3] } };
+		const obj4 = { g: true };
+
+		const expected = { a: 0, b: 10, c: 2, d: { e: true }, f: [0, 1, 2, 3], g: true };
+		const res = merge.multi(obj1, obj2, obj3, obj4);
+
+		assert.deepStrictEqual(res, expected);
+	});
+});
