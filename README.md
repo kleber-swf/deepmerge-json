@@ -325,8 +325,12 @@ Testing machine:
 * Memory: 32GB
 * SO: Ubuntu 20.04.4 LTS
 
-Measures      | Node 17.7.2 | Chrome 100.0.4896.75 | Firefox 99.0 :thinking: |
---------------|-------------|----------------------|---------------
-| Max. Value  |  279763.93  |      295386.07       |   852514.92  |
-| Min. Value  |  277344.35  |      287802.91       |   827814.57  |
-| Average*    |  279574.05  |      293929.66       |   840884.13  |
+Measures              | Node 17.7.2 | Chrome 100.0.4896.75 | Firefox 99.0 <sup>2</sup> :thinking: |
+----------------------|-------------|----------------------|---------------------------------------
+| Max. Value          | 279763.93   | 295386.07            | 852514.92                            |
+| Min. Value          | 277344.35   | 287802.91            | 827814.57                            |
+| Average<sup>1</sup> | 279574.05   | 293929.66            | 840884.13                            |
+
+* Operations per second
+* <sup>1</sup> The average is calculated removing the maximum and the minimum values
+* <sup>2</sup> For some reason Firefox returned a really good but suspicious performance
