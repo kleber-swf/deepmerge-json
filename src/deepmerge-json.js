@@ -15,14 +15,14 @@ const mergeArrays = function (pre, pos) {
 };
 
 const mergeArrayWithParams = function (pre, pos) {
-	let result = pre.slice();
+	pre = pre.slice();
 	Object.keys(pos).forEach(key => {
-		result = key in arrayMergeFn
-			? arrayMergeFn[key](result, pos[key])
+		pre = key in arrayMergeFn
+			? arrayMergeFn[key](pre, pos[key])
 			: pos;
 	});
 
-	return result;
+	return pre;
 };
 
 const indexedReplace = function (pre, pos) {
@@ -71,7 +71,12 @@ const fn = {
 };
 
 function merge(pre, pos) {
-	if (!pos) return pos;
+	if (pos == null) {
+		if (pre == null) return pre;
+		if (Array.isArray(pre)) pos = [];
+		else if (typeof pre === 'object') pos = {};
+		else pos = pre;
+	}
 	const tt = Array.isArray(pre) ? 'a' : typeof pre === 'object' ? 'o' : 'b';
 	const st = Array.isArray(pos) ? 'a' : typeof pos === 'object' ? 'o' : 'b';
 	return fn[tt + st](pre, pos);

@@ -1,8 +1,6 @@
 const assert = require('assert');
 const merge = require('../dist/deepmerge-json');
 
-const falsey = [undefined, null, false, 0, '0'];
-
 describe('basic merge', function () {
 	it('should prefer pos values', function () {
 		const pre = { a: 2 };
@@ -36,22 +34,22 @@ describe('basic merge', function () {
 
 	it('should replace an empty pre parameter', function () {
 		const pos = { foo: 20, bar: 'baz' };
-		falsey.forEach(f => {
+		[undefined, null].forEach(f => {
 			const res = merge(f, pos);
 			assert.deepStrictEqual(res, pos);
 		});
 	});
 
-	it('should accept an empty pos parameter', function () {
+	it('should accept an empty pos parameter (clone)', function () {
 		const pre = { foo: 20, bar: 'baz' };
-		falsey.forEach(f => {
+		[undefined, null].forEach(f => {
 			const res = merge(pre, f);
-			assert.strictEqual(res, f);
+			assert.deepStrictEqual(res, pre);
 		});
 	});
 
 	it('should accept an empty value for both parameters', function () {
-		falsey.forEach(f => {
+		[undefined, null].forEach(f => {
 			const res = merge(f, f);
 			assert.strictEqual(res, f);
 		});
