@@ -123,8 +123,13 @@ const res = merge(left, right);
     }
   }
 }
-
 ```
+
+## Clone
+
+You can clone an object omitting the second parameter. This will execute the `merge` function with an empty second parameter, which results in a deep clone of the first one.
+
+Notice that if you pass anything other than `undefined` to the second parameter (even `null`), it will be actively used in the merge process.
 
 ## Array merge
 
