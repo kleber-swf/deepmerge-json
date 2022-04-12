@@ -353,5 +353,13 @@ describe('object array merge', function () {
 		const res = merge(pre, pos);
 
 		assert.deepStrictEqual(res, [100, 1, 2, 3, 4, 5, 6]);
+	});
+
+	it('should consider the order for multiple operations', function () {
+		const pre = [2, 3, 4];
+		const pos = { $replace: { 0: 100 }, $prepend: [0, 1], $append: [5, 6] };
+		const res = merge(pre, pos);
+
+		assert.deepStrictEqual(res, [0, 1, 100, 3, 4, 5, 6]);
 	})
 });
