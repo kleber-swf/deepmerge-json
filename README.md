@@ -132,9 +132,9 @@ Merging arrays are special because sometimes you want to append elements, someti
 
 Mongodb handles this nicely (IMHO). It has a [`$push` property](https://docs.mongodb.com/manual/reference/operator/update/push/) (among others) that let you append elements to an array when updating a document.
 
-Inspired on that this library has the following merging methods (note that to be merged, the arrays can have any depth as long as they have the same path):
+Inspired on that, this library has some merging methods (here called **operations**) to help you merge or improve the arrays from the original object. Just keep in mind that no matter the depth of the array, you just need to have the same path to the objects you want to merge.
 
-### Merge elements
+### Merging elements
 
 This is the default behavior. It merges the arrays elements one by one. It will add elements to the end if there more on the right than on the left element.
 
@@ -160,7 +160,7 @@ const result = merge(left, right)
 
 ### $push / $append
 
-You can use the special property `$push` or `$append` to add elements to the end of the "left" array.
+You can use the `$push` or `$append` operation to add elements to the end of the "left" array.
 
 ```js
 const left = [0, 1, 2];
@@ -173,7 +173,7 @@ const result = merge(left, right);
 
 ### $prepend
 
-Similarly, you can use the property `$prepend` to add elements to the beginning of the "left" array.
+Similarly, you can use `$prepend` operation to add elements to the beginning of the "left" array.
 
 ```js
 const left = [0, 1, 2];
@@ -269,6 +269,36 @@ const result = merge(left, right);
 
 // Result
 [10, 20, 30, 40, 50, 60];
+```
+
+### Multiple operations
+
+Starting from version `1.3.0` it's possible to use multiple operations at once. They are executed in place and in order.
+
+```js
+const left = [2, 3, 4];
+const right: {
+  $prepend: [0, 1],
+  $append: [5, 6],
+  $replace: { 0: 100 };
+}
+const result = merge(left, right);
+
+// Result
+[100, 1, 2, 3, 4, 5, 6]
+```
+
+```js
+const left = [2, 3, 4];
+const right: {
+  $replace: { 0: 100 };
+  $prepend: [0, 1],
+  $append: [5, 6],
+}
+const result = merge(left, right);
+
+// Result
+[0, 1, 100, 3, 4, 5, 6]
 ```
 
 ## Options
