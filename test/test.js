@@ -384,3 +384,66 @@ describe('object array merge', function () {
 		assert.deepStrictEqual(res, [0, 1, 100, 3, 4, 5, 6]);
 	});
 });
+
+describe('utils: clone', function () {
+	it('should clone an object', function () {
+		const obj = { a: true, b: { c: { d: [0, 1, 2] } } };
+		const res = merge.clone(obj);
+
+		assert.deepStrictEqual(res, obj);
+		assert.notStrictEqual(res, obj);
+	});
+
+	it('should clone an array', function () {
+		const obj = [0, 1, 2, { a: 3 }, { b: { c: 4 } }];
+		const res = merge.clone(obj);
+
+		assert.deepStrictEqual(res, obj);
+		assert.notStrictEqual(res, obj);
+	});
+
+	it('should clone basic types', function () {
+		let obj = 'foo bar';
+		let res = merge.clone(obj);
+		assert.deepStrictEqual(res, obj);
+
+		obj = true;
+		res = merge.clone(obj);
+		assert.deepStrictEqual(res, obj);
+
+		obj = 42;
+		res = merge.clone(obj);
+		assert.deepStrictEqual(res, obj);
+
+		obj = null;
+		res = merge.clone(obj);
+		assert.deepStrictEqual(res, obj);
+	});
+});
+
+
+describe('utils: merge multi', function () {
+	it('should merge arrays respecting operations', function () {
+		const obj1 = [0, 1, 2, 3, 4, 5];
+		const obj2 = [, 10, 20];
+		const obj3 = { $prepend: [-2, -1], $append: [6, 7] };
+		const obj4 = { $insert: { 7: 70 } };
+
+		const expected = [-2, -1, 0, 10, 20, 3, 4, 70, 5, 6, 7];
+		const res = merge.multi(obj1, obj2, obj3, obj4);
+
+		assert.deepStrictEqual(res, expected);
+	});
+
+	it('should merge multiple objects', function () {
+		const obj1 = { a: 0, b: 1, c: 2, d: { e: true }, f: [0, 1, 2] };
+		const obj2 = { a: 0, b: 10 };
+		const obj3 = { f: { $append: [3] } };
+		const obj4 = { g: true };
+
+		const expected = { a: 0, b: 10, c: 2, d: { e: true }, f: [0, 1, 2, 3], g: true };
+		const res = merge.multi(obj1, obj2, obj3, obj4);
+
+		assert.deepStrictEqual(res, expected);
+	});
+});

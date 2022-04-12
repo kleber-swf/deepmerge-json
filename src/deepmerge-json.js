@@ -84,4 +84,15 @@ function merge(pre, pos) {
 	return fn[tt + st](pre, pos);
 }
 
+
+merge.clone = obj => merge(obj);
+
+merge.multi = (pre, ...args) => {
+	if (!args) return merge(pre);
+	for (let i = 0; i < args.length; i++) {
+		pre = merge(pre, args[i]);
+	}
+	return pre;
+}
+
 export default merge;

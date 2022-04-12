@@ -4,8 +4,10 @@
 
 ### Added:
 
--   Added support to multiple operations at once
--   Added clone functionality with an empty second parameter.
+-   Support to multiple operations at once
+-   Clone functionality with an empty second parameter.
+-   Proper `clone` method which is a more meaninful named alias to the functionality
+-   `merge.multi` an utility method to merge multiple objects at once, respecting their order
 
 ### Fixed:
 
