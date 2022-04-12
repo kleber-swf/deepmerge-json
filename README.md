@@ -315,3 +315,18 @@ For now, no options yet :chipmunk:.
 If you are nice enough you can submit bugs and features to the issue board and make this lib great and useful for you and the community.
 
 But if you are really nice you can submit a PR and make this lib awesome!
+
+# Rough Performance Test
+
+Just a fun performance test with a 1 million runs. I'm not a performance expert so they might not be very precise.
+
+Testing machine:
+* CPU: Intel Core i5-9300H @ 2.4GHz x8
+* Memory: 32GB
+* SO: Ubuntu 20.04.4 LTS
+
+Measures      | Node 17.7.2 | Chrome 100.0.4896.75 | Firefox 99.0 :thinking: |
+--------------|-------------|----------------------|---------------
+| Max. Value  |  279763.93  |      295386.07       |   852514.92  |
+| Min. Value  |  277344.35  |      287802.91       |   827814.57  |
+| Average*    |  279574.05  |      293929.66       |   840884.13  |
