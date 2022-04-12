@@ -84,4 +84,7 @@ function merge(pre, pos) {
 	return fn[tt + st](pre, pos);
 }
 
+
+merge.clone = obj => merge(obj);
+
 export default merge;

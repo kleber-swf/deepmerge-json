@@ -384,3 +384,40 @@ describe('object array merge', function () {
 		assert.deepStrictEqual(res, [0, 1, 100, 3, 4, 5, 6]);
 	});
 });
+
+describe('utils: clone', function () {
+	it('should clone an object', function () {
+		const obj = { a: true, b: { c: { d: [0, 1, 2] } } };
+		const res = merge.clone(obj);
+
+		assert.deepStrictEqual(res, obj);
+		assert.notStrictEqual(res, obj);
+	});
+
+	it('should clone an array', function () {
+		const obj = [0, 1, 2, { a: 3 }, { b: { c: 4 } }];
+		const res = merge.clone(obj);
+
+		assert.deepStrictEqual(res, obj);
+		assert.notStrictEqual(res, obj);
+	});
+
+	it('should clone basic types', function () {
+		let obj = 'foo bar';
+		let res = merge.clone(obj);
+		assert.deepStrictEqual(res, obj);
+
+		obj = true;
+		res = merge.clone(obj);
+		assert.deepStrictEqual(res, obj);
+
+		obj = 42;
+		res = merge.clone(obj);
+		assert.deepStrictEqual(res, obj);
+
+		obj = null;
+		res = merge.clone(obj);
+		assert.deepStrictEqual(res, obj);
+	});
+});
+
