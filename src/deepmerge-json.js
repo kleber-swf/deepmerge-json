@@ -70,6 +70,20 @@ const fn = {
 	ba: cloneArray
 };
 
+/**
+ * Deeply merge objects. Properties from the second parameter overrides the ones with the same path
+ * in the first object.
+ * 
+ * Arrays can be merged or changed with `$push`, `$prepend`, `$set`, `$replace` or `$insert`
+ * operations. Multiple operations can be passed.
+ * 
+ * @see {@link https://github.com/kleber-swf/deepmerge-json#readme}
+ * @param {any} pre Base object
+ * @param {any} pos Object that will overrite base properties. If none is given, the first object is
+ * 			  deeply cloned
+ * @returns {any} A deep clone object containing a combination of all
+ * 			properties from pre and pos arguments.
+ */
 function merge(pre, pos) {
 	if (pos === undefined) {
 		if (pre == null) return pre;
@@ -84,9 +98,24 @@ function merge(pre, pos) {
 	return fn[tt + st](pre, pos);
 }
 
-
+/**
+ * Deeply clones an object. This method is an alias to {@linkcode merge} with a single parameter.
+ * 
+ * @template T
+ * @param {T} obj The object to be cloned
+ * @returns {T} The object passed as parameter deeply cloned.
+ */
 merge.clone = obj => merge(obj);
 
+/**
+ * Merges multiple objects. It respects the order of the parameters and the operations just like
+ * expected if you call {@linkcode merge} multiple times passing the last result as the first
+ * parameter to the next call.
+ * 
+ * @param {any} pre The required first object
+ * @param  {...any} args Subsequential objects. Keep in mind that their order matters.
+ * @returns {any} A deeply merged object containing all of the parameters
+ */
 merge.multi = (pre, ...args) => {
 	if (!args) return merge(pre);
 	for (let i = 0; i < args.length; i++) {
