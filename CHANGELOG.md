@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.2] - 2022-13-04
+
+### Added
+
+-   Automatic generation of `d.ts` file, keeping Typescript users happy effortlessly
+-   Documentation for `clone` and `multi` methods
+
+### Fixed
+
+-   Last changes were not inside the the `d.ts` file
+
+---
+
 ## [1.3.0] - 2022-12-04
 
 ### Added:

@@ -3,9 +3,19 @@
 [![Build Status](https://travis-ci.org/kleber-swf/deepmerge-json.svg?branch=master)](https://travis-ci.org/kleber-swf/deepmerge-json)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/kleber-swf/deepmerge-json.svg)
 
+# What
+
 A simple library to deep merge json files with array operations. Hugely inspired by the awesome [deepmerge](https://github.com/TehShrike/deepmerge) project.
 
 > Note that you can use to merge javascript objects, but the main reason this library was created was to merge json files with optional special operations for array merging.
+
+# Why
+
+Sometimes you need a deeply copied objects. Sometimes you need to alter these objects to make them more extensible and generic, specially when you are using [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) or [convention over code](https://en.wikipedia.org/wiki/Convention_over_Code) patterns.
+
+The objective of this library is to help you with these situations being really simple, performatic and small (~1.5kb).
+
+# How
 
 ```js
 let left = {
@@ -39,7 +49,7 @@ console.log(result);
 }
 ```
 
-**Explanation:** it deeply merges `right` object into `left` without altering them and their properties. Everything is cloned. Arrays elements are merged based on `right` parameters passed as objects.
+**Explanation:** it deeply merges `right` object into `left` without altering them and their properties. Everything is cloned. Arrays elements are merged based on `right` parameters (operators) passed as objects.
 
 # Installation
 

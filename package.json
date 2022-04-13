@@ -1,6 +1,6 @@
 {
 	"name": "deepmerge-json",
-	"version": "1.3.1",
+	"version": "1.3.2",
 	"description": "A library to deep merge json files with array operations",
 	"keywords": [
 		"json",
@@ -15,7 +15,7 @@
 	],
 	"main": "dist/deepmerge-json.js",
 	"min": "dist/deepmerge-json.min.js",
-	"types": "src/deepmerge-json.d.ts",
+	"types": "dist/deepmerge-json.d.ts",
 	"author": "Kleber Silva <kleber.swf@gmail.com>",
 	"license": "MIT",
 	"repository": {
@@ -31,11 +31,13 @@
 	"scripts": {
 		"build": "rollup -c rollup.config.js",
 		"test": "mocha",
+		"prepublish": "tsc",
 		"pretest": "npm run build"
 	},
 	"devDependencies": {
 		"mocha": "^9.2.2",
 		"rollup": "^2.70.1",
-		"rollup-plugin-terser": "^7.0.2"
+		"rollup-plugin-terser": "^7.0.2",
+		"typescript": "^4.6.3"
 	}
 }
