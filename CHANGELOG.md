@@ -13,6 +13,7 @@
 
 -   Result was being replaced by an empty `pos` parameter. This fix can be a breaking change if your code rely on this behavior. This was wrongly assuming that if you pass any _falsey_ `pos` parameter it meant you wanted to replace the entire `pre` parameter with it. Now it works like this: if you pass nothing (`undefined`) to the `pos` parameter, the `pre` parameter will be cloned as is. If you pass anything else, it will be used in the merge process as expected.
 -   README titles
+-   Travis configuration file
 
 ---
 
