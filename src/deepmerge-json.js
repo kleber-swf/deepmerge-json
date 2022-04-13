@@ -15,10 +15,14 @@ const mergeArrays = function (pre, pos) {
 };
 
 const mergeArrayWithParams = function (pre, pos) {
-	const key = Object.keys(pos)[0]; // (x_x) This is ugly
-	return key in arrayMergeFn
-		? arrayMergeFn[key](pre.slice(), pos[key])
-		: pos;
+	pre = pre.slice();
+	Object.keys(pos).forEach(key => {
+		pre = key in arrayMergeFn
+			? arrayMergeFn[key](pre, pos[key])
+			: pos;
+	});
+
+	return pre;
 };
 
 const indexedReplace = function (pre, pos) {
@@ -67,10 +71,28 @@ const fn = {
 };
 
 function merge(pre, pos) {
-	if (!pos) return pos;
+	if (pos === undefined) {
+		if (pre == null) return pre;
+		if (Array.isArray(pre)) pos = [];
+		else if (typeof pre === 'object') pos = {};
+		else pos = pre;
+	} else if (pos === null) {
+		return null;
+	}
 	const tt = Array.isArray(pre) ? 'a' : typeof pre === 'object' ? 'o' : 'b';
 	const st = Array.isArray(pos) ? 'a' : typeof pos === 'object' ? 'o' : 'b';
 	return fn[tt + st](pre, pos);
+}
+
+
+merge.clone = obj => merge(obj);
+
+merge.multi = (pre, ...args) => {
+	if (!args) return merge(pre);
+	for (let i = 0; i < args.length; i++) {
+		pre = merge(pre, args[i]);
+	}
+	return pre;
 }
 
 export default merge;

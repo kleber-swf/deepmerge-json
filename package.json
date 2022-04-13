@@ -1,6 +1,6 @@
 {
 	"name": "deepmerge-json",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"description": "A library to deep merge json files with array operations",
 	"keywords": [
 		"json",
@@ -34,8 +34,8 @@
 		"pretest": "npm run build"
 	},
 	"devDependencies": {
-		"mocha": "^9.0.3",
-		"rollup": "^2.55.1",
+		"mocha": "^9.2.2",
+		"rollup": "^2.70.1",
 		"rollup-plugin-terser": "^7.0.2"
 	}
 }
