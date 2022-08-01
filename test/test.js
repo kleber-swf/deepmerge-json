@@ -268,7 +268,7 @@ describe('object array merge', function () {
 		const pos = { $replace: { 0: { a: 2 }, 2: { c: 2, cc: { c1: 2, c3: 2 } } } };
 		const res = merge(pre, pos);
 
-		assert.deepStrictEqual(res, [{ a: 2 }, { b: 2 }, { c: 2, cc: { c1: 2, c2: 2, c3: 2 } }]);
+		assert.deepStrictEqual(res, [{ a: 2 }, { b: 2 }, { c: 2, cc: { c1: 2, c3: 2 } }]);
 		assert.notStrictEqual(res, pre);
 		assert.notStrictEqual(res, pos);
 	});
@@ -288,7 +288,7 @@ describe('object array merge', function () {
 		const pos = { $replace: { '0': { a: 2 }, '2': { c: 2, cc: { c1: 2, c3: 2 } } } };
 		const res = merge(pre, pos);
 
-		assert.deepStrictEqual(res, [{ a: 2 }, { b: 2 }, { c: 2, cc: { c1: 2, c2: 2, c3: 2 } }]);
+		assert.deepStrictEqual(res, [{ a: 2 }, { b: 2 }, { c: 2, cc: { c1: 2, c3: 2 } }]);
 		assert.notStrictEqual(res, pre);
 		assert.notStrictEqual(res, pos);
 	});

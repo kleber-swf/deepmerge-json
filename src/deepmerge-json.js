@@ -31,7 +31,7 @@ const indexedReplace = function (pre, pos) {
 	Object.keys(pos).forEach(k => {
 		kn = Number.parseInt(k);
 		if (kn < 0 || Number.isNaN(kn)) throw Error(`Invalid index for $replace: ${k}`);
-		pre[kn] = merge(pre[kn], pos[k]);
+		pre[kn] = merge.clone(pos[k]);
 	});
 	return pre;
 };
