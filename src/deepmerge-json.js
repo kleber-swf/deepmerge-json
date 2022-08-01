@@ -1,10 +1,23 @@
+const FK = '__proto__';
 const directReplace = (_, pos) => pos;
-const cloneReplace = (_, pos) => Object.assign({}, pos);
-const cloneArray = (_, pos) => pos.slice();
+const shallowCopyArray = (_, pos) => pos.slice();
+const shallowCopyObj = (_, pos) => {
+	if (pos && pos.hasOwnProperty('__proto__')) {
+		const res = {};
+		for (let e in pos) {
+			if (e !== FK) res[e] = pos[e];
+		}
+		return res;
+	}
+	return Object.assign({}, pos);
+};
+
+// const _clone = (_, pos) => merge(pos);
+
 
 const mergeObjects = function (pre, pos) {
-	pre = Object.assign({}, pre);
-	Object.keys(pos).forEach(k => (pre[k] = merge(pre[k], pos[k])));
+	pre = shallowCopyObj(undefined, pre);
+	Object.keys(pos).forEach(k => { if (k !== FK) pre[k] = merge(pre[k], pos[k]); });
 	return pre;
 };
 
@@ -17,9 +30,9 @@ const mergeArrays = function (pre, pos) {
 const mergeArrayWithParams = function (pre, pos) {
 	pre = pre.slice();
 	Object.keys(pos).forEach(key => {
-		pre = key in arrayMergeFn
-			? arrayMergeFn[key](pre, pos[key])
-			: pos;
+		if (key !== FK) {
+			pre = key in arrayMergeFn ? arrayMergeFn[key](pre, pos[key]) : pos;
+		}
 	});
 
 	return pre;
@@ -53,12 +66,12 @@ const arrayMergeFn = {
 	$prepend: (pre, pos) => pos.concat(pre),
 	$replace: indexedReplace,
 	$insert: insert,
-	$set: cloneArray
+	$set: shallowCopyArray,	// TODO clone
 };
 
 const fn = {
 	oo: mergeObjects,
-	oa: cloneReplace,
+	oa: shallowCopyObj,		// TODO clone
 	ob: directReplace,
 
 	aa: mergeArrays,
@@ -66,8 +79,8 @@ const fn = {
 	ab: directReplace,
 
 	bb: directReplace,
-	bo: cloneReplace,
-	ba: cloneArray
+	bo: shallowCopyObj,		// TODO clone
+	ba: shallowCopyArray,	// TODO clone
 };
 
 /**
