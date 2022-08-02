@@ -1,32 +1,45 @@
+const FK = '__proto__';
 const directReplace = (_, pos) => pos;
-const cloneReplace = (_, pos) => Object.assign({}, pos);
-const cloneArray = (_, pos) => pos.slice();
+const shallowCopyArray = (_, pos) => pos.map(e => merge(e));
+const shallowCopyObj = (_, pos) => {
+	if (pos && pos.hasOwnProperty('__proto__')) {
+		const res = {};
+		for (let e in pos) {
+			if (e !== FK) res[e] = pos[e];
+		}
+		return res;
+	}
+	return Object.assign({}, pos);
+};
+
+// const _clone = (_, pos) => merge(pos);
+
 
 const mergeObjects = function (pre, pos) {
-	pre = Object.assign({}, pre);
-	Object.keys(pos).forEach(k => (pre[k] = merge(pre[k], pos[k])));
+	pre = shallowCopyObj(undefined, pre);
+	Object.keys(pos).forEach(k => { if (k !== FK) pre[k] = merge(pre[k], pos[k]); });
 	return pre;
 };
 
 const mergeArrays = function (pre, pos) {
-	pre = pre.slice();
+	pre = shallowCopyArray(undefined, pre);
 	pos.forEach((v, i) => (pre[i] = merge(pre[i], v)));
 	return pre;
 };
 
 const mergeArrayWithParams = function (pre, pos) {
-	pre = pre.slice();
+	pre = shallowCopyArray(undefined, pre);
 	Object.keys(pos).forEach(key => {
-		pre = key in arrayMergeFn
-			? arrayMergeFn[key](pre, pos[key])
-			: pos;
+		if (key !== FK) {
+			pre = key in arrayMergeFn ? arrayMergeFn[key](pre, pos[key]) : pos;
+		}
 	});
 
 	return pre;
 };
 
 const indexedReplace = function (pre, pos) {
-	pre = pre.slice();
+	pre = shallowCopyArray(undefined, pre);
 	let kn;
 	Object.keys(pos).forEach(k => {
 		kn = Number.parseInt(k);
@@ -37,7 +50,7 @@ const indexedReplace = function (pre, pos) {
 };
 
 const insert = function (pre, pos) {
-	pre = pre.slice();
+	pre = shallowCopyArray(undefined, pre);
 	let kn;
 	Object.keys(pos).forEach(k => {
 		kn = Number.parseInt(k);
@@ -53,12 +66,12 @@ const arrayMergeFn = {
 	$prepend: (pre, pos) => pos.concat(pre),
 	$replace: indexedReplace,
 	$insert: insert,
-	$set: cloneArray
+	$set: shallowCopyArray,	// TODO clone
 };
 
 const fn = {
 	oo: mergeObjects,
-	oa: cloneReplace,
+	oa: shallowCopyObj,		// TODO clone
 	ob: directReplace,
 
 	aa: mergeArrays,
@@ -66,8 +79,8 @@ const fn = {
 	ab: directReplace,
 
 	bb: directReplace,
-	bo: cloneReplace,
-	ba: cloneArray
+	bo: shallowCopyObj,		// TODO clone
+	ba: shallowCopyArray,	// TODO clone
 };
 
 /**
@@ -125,3 +138,8 @@ merge.multi = (pre, ...args) => {
 }
 
 export default merge;
+
+// TODO Test the following approach: clone both objects at the start so we won't need to
+// keep cloning the objects individually during the process.
+// 1. we can clone with JSON.parse(JSON.stringify) and check the __proto__ during the merge
+// 2. we can clone manually and check for __proto__ during this phase

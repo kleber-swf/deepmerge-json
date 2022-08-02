@@ -447,3 +447,18 @@ describe('utils: merge multi', function () {
 		assert.deepStrictEqual(res, expected);
 	});
 });
+
+describe('vulnerabilities', function () {
+	it('should not allow prototype pollution', function () {
+		let res = merge({}, JSON.parse('{ "__proto__": { "admin": true }}'));
+		assert.equal(res.admin, undefined);
+
+		res = merge({}, JSON.parse(`{ "test": { "__proto__": { "admin": true } } }`));
+		assert.deepEqual(res, { test: {} });
+		assert.equal(res.test.admin, undefined);
+
+		res = merge({}, JSON.parse(`{ "test": [{ "__proto__": { "admin": true } }] }`));
+		assert.deepEqual(res, { test: [{}] });
+		assert.equal(res.test[0].admin, undefined);
+	});
+});
