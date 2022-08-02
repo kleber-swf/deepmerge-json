@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/kleber-swf/deepmerge-json.svg?branch=master)](https://travis-ci.org/kleber-swf/deepmerge-json)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/kleber-swf/deepmerge-json.svg)
 ![npm](https://img.shields.io/npm/v/deepmerge-json)
+![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/kleber-swf/deepmerge-json)
 
 # What
 
