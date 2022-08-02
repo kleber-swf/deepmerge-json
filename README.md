@@ -245,13 +245,51 @@ const result = merge(left, right);
 
 `[1.4.0]` It completely replaces the indicated left element with the corresponding right element.
 
+> **Note for users of version `< 1.4.0`**: if you want the old operation functionality, replace `$replace` for [`$merge`](#merge).
+
 ```js
 const left = [{ a: 1, b: 1 }, { c: 1 }];
-const right = [{ a: 2 }];
+const right = { $merge: [{ a: 2 }] };
 const result = merge(left, right);
 
 // Result
 [{ a: 2 }, { c: 1 }];
+```
+
+### $merge
+
+Use `$merge` to merge or add indexed elements by their indexes. Indexes can be numbers or strings and cannot be less than 0 or `NaN` values. It's similar to [`$replace`](#replace) but instead of replacing the values when found, it merges them with the new values.
+
+#### With valid indexes:
+
+```js
+const left = [10, 20, 30];
+const right = { $merge: { 0: 100, 2: 300, 4: 400 } };
+const result = merge(left, right);
+
+// Result (note that the element with index 3 was never given)
+[100, 20, 300, , 400];
+```
+
+#### With invalid indexes:
+
+```js
+const left = [10, 20, 30];
+const right = { $merge: { null: 0, foo: 0, true: 0, '-1': 0 } };
+const result = merge(left, right);
+
+// throws an Error
+```
+
+#### With objects
+
+```js
+const left = [{ a: 1, b: 1 }, { c: 1 }];
+const right = { $merge: [{ a: 2 }] };
+const result = merge(left, right);
+
+// Result
+[{ a: 2, b: 1 }, { c: 1 }];
 ```
 
 ### $insert
