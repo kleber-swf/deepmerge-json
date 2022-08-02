@@ -458,7 +458,7 @@ describe('vulnerabilities', function () {
 		assert.equal(a.test.admin, undefined);
 
 		a = merge({}, JSON.parse(`{ "test": [{ "__proto__": { "admin": true } }] }`));
-		// assert.deepEqual(a, { test: [{}] });
+		assert.deepEqual(a, { test: [{}] });
 		assert.equal(a.test[0].admin, undefined);
 	});
 });

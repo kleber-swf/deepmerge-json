@@ -1,6 +1,6 @@
 const FK = '__proto__';
 const directReplace = (_, pos) => pos;
-const shallowCopyArray = (_, pos) => pos.slice();
+const shallowCopyArray = (_, pos) => pos.map(e => merge(e));
 const shallowCopyObj = (_, pos) => {
 	if (pos && pos.hasOwnProperty('__proto__')) {
 		const res = {};
@@ -22,13 +22,13 @@ const mergeObjects = function (pre, pos) {
 };
 
 const mergeArrays = function (pre, pos) {
-	pre = pre.slice();
+	pre = shallowCopyArray(undefined, pre);
 	pos.forEach((v, i) => (pre[i] = merge(pre[i], v)));
 	return pre;
 };
 
 const mergeArrayWithParams = function (pre, pos) {
-	pre = pre.slice();
+	pre = shallowCopyArray(undefined, pre);
 	Object.keys(pos).forEach(key => {
 		if (key !== FK) {
 			pre = key in arrayMergeFn ? arrayMergeFn[key](pre, pos[key]) : pos;
@@ -39,7 +39,7 @@ const mergeArrayWithParams = function (pre, pos) {
 };
 
 const indexedReplace = function (pre, pos) {
-	pre = pre.slice();
+	pre = shallowCopyArray(undefined, pre);
 	let kn;
 	Object.keys(pos).forEach(k => {
 		kn = Number.parseInt(k);
@@ -50,7 +50,7 @@ const indexedReplace = function (pre, pos) {
 };
 
 const insert = function (pre, pos) {
-	pre = pre.slice();
+	pre = shallowCopyArray(undefined, pre);
 	let kn;
 	Object.keys(pos).forEach(k => {
 		kn = Number.parseInt(k);
