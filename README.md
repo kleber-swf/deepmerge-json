@@ -219,7 +219,7 @@ const result = merge(left, right);
 
 Use `$replace` to replace or add indexed elements by their indexes. Indexes can be numbers or strings and cannot be less than 0 or `NaN` values.
 
-With valid indexes:
+#### With valid indexes:
 
 ```js
 const left = [10, 20, 30];
@@ -230,7 +230,7 @@ const result = merge(left, right);
 [100, 20, 300, , 400];
 ```
 
-With invalid indexes:
+#### With invalid indexes:
 
 ```js
 const left = [10, 20, 30];
@@ -240,11 +240,24 @@ const result = merge(left, right);
 // throws an Error
 ```
 
+#### With objects
+
+`[1.4.0]` It completely replaces the indicated left element with the corresponding right element.
+
+```js
+const left = [{ a: 1, b: 1 }, { c: 1 }];
+const right = [{ a: 2 }];
+const result = merge(left, right);
+
+// Result
+[{ a: 2 }, { c: 1 }];
+```
+
 ### $insert
 
 Use `$insert` to insert indexed elements at their indexes. Indexes can be numbers or strings and cannot `NaN` values. Notice that elements change places as you insert them. Negative numbers insert them to the end of the array. See [Array.splice](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice).
 
-With positive indexes:
+#### With positive indexes:
 
 ```js
 const left = [10, 20, 30];
@@ -255,7 +268,7 @@ const result = merge(left, right);
 [100, 10, 200, 20, 30, 400];
 ```
 
-With negative indexes:
+#### With negative indexes:
 
 ```js
 const left = [10, 20, 30];
@@ -266,7 +279,7 @@ const result = merge(left, right);
 [0, 10, 20, 200, 100, 30];
 ```
 
-With invalid indexes:
+#### With invalid indexes:
 
 ```js
 const left = [10, 20, 30];

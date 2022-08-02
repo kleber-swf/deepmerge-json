@@ -268,7 +268,7 @@ describe('object array merge', function () {
 		const pos = { $replace: { 0: { a: 2 }, 2: { c: 2, cc: { c1: 2, c3: 2 } } } };
 		const res = merge(pre, pos);
 
-		assert.deepStrictEqual(res, [{ a: 2 }, { b: 2 }, { c: 2, cc: { c1: 2, c2: 2, c3: 2 } }]);
+		assert.deepStrictEqual(res, [{ a: 2 }, { b: 2 }, { c: 2, cc: { c1: 2, c3: 2 } }]);
 		assert.notStrictEqual(res, pre);
 		assert.notStrictEqual(res, pos);
 	});
@@ -288,7 +288,7 @@ describe('object array merge', function () {
 		const pos = { $replace: { '0': { a: 2 }, '2': { c: 2, cc: { c1: 2, c3: 2 } } } };
 		const res = merge(pre, pos);
 
-		assert.deepStrictEqual(res, [{ a: 2 }, { b: 2 }, { c: 2, cc: { c1: 2, c2: 2, c3: 2 } }]);
+		assert.deepStrictEqual(res, [{ a: 2 }, { b: 2 }, { c: 2, cc: { c1: 2, c3: 2 } }]);
 		assert.notStrictEqual(res, pre);
 		assert.notStrictEqual(res, pos);
 	});
@@ -445,5 +445,20 @@ describe('utils: merge multi', function () {
 		const res = merge.multi(obj1, obj2, obj3, obj4);
 
 		assert.deepStrictEqual(res, expected);
+	});
+});
+
+describe('vulnerabilities', function () {
+	it('should not allow prototype pollution', function () {
+		let res = merge({}, JSON.parse('{ "__proto__": { "admin": true }}'));
+		assert.equal(res.admin, undefined);
+
+		res = merge({}, JSON.parse(`{ "test": { "__proto__": { "admin": true } } }`));
+		assert.deepEqual(res, { test: {} });
+		assert.equal(res.test.admin, undefined);
+
+		res = merge({}, JSON.parse(`{ "test": [{ "__proto__": { "admin": true } }] }`));
+		assert.deepEqual(res, { test: [{}] });
+		assert.equal(res.test[0].admin, undefined);
 	});
 });

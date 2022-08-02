@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0] - 2022-02-08
+
+### Changed
+
+-   `replace` method now does what it suppose to do: it "replaces" individual array elements instead of merging the old ones with the new.
+
+### Fixed
+
+-   Avoiding the infamous [prototype pollution](https://learn.snyk.io/lessons/prototype-pollution/javascript/) problem
+
+---
+
 ## [1.3.2] - 2022-13-04
 
 ### Added
@@ -90,6 +102,8 @@
 Initial version
 
 [unreleased]: https://github.com/kleber-swf/deepmerge-json/tree/develop
+[1.4.0]: https://github.com/kleber-swf/deepmerge-json/tree/v1.4.0
+[1.3.2]: https://github.com/kleber-swf/deepmerge-json/tree/v1.3.2
 [1.3.0]: https://github.com/kleber-swf/deepmerge-json/tree/v1.3.0
 [1.2.0]: https://github.com/kleber-swf/deepmerge-json/tree/v1.2.0
 [1.1.3]: https://github.com/kleber-swf/deepmerge-json/tree/v1.1.3
