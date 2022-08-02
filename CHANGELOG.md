@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0] - 2022-02-08
+
+### Added
+
+-   `merge` operation. It should be used instead of `$replace`. It works like `$replace` was before `1.4.0`. It merges objects when the index is found and add them when the index is missing.
+
+--
+
 ## [1.4.0] - 2022-02-08
 
 ### Changed
@@ -102,6 +110,7 @@
 Initial version
 
 [unreleased]: https://github.com/kleber-swf/deepmerge-json/tree/develop
+[1.5.0]: https://github.com/kleber-swf/deepmerge-json/tree/v1.5.0
 [1.4.0]: https://github.com/kleber-swf/deepmerge-json/tree/v1.4.0
 [1.3.2]: https://github.com/kleber-swf/deepmerge-json/tree/v1.3.2
 [1.3.0]: https://github.com/kleber-swf/deepmerge-json/tree/v1.3.0
