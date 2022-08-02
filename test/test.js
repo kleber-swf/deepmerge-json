@@ -450,15 +450,15 @@ describe('utils: merge multi', function () {
 
 describe('vulnerabilities', function () {
 	it('should not allow prototype pollution', function () {
-		let a = merge({}, JSON.parse('{ "__proto__": { "admin": true }}'));
-		assert.equal(a.admin, undefined);
+		let res = merge({}, JSON.parse('{ "__proto__": { "admin": true }}'));
+		assert.equal(res.admin, undefined);
 
-		a = merge({}, JSON.parse(`{ "test": { "__proto__": { "admin": true } } }`));
-		assert.deepEqual(a, { test: {} });
-		assert.equal(a.test.admin, undefined);
+		res = merge({}, JSON.parse(`{ "test": { "__proto__": { "admin": true } } }`));
+		assert.deepEqual(res, { test: {} });
+		assert.equal(res.test.admin, undefined);
 
-		a = merge({}, JSON.parse(`{ "test": [{ "__proto__": { "admin": true } }] }`));
-		assert.deepEqual(a, { test: [{}] });
-		assert.equal(a.test[0].admin, undefined);
+		res = merge({}, JSON.parse(`{ "test": [{ "__proto__": { "admin": true } }] }`));
+		assert.deepEqual(res, { test: [{}] });
+		assert.equal(res.test[0].admin, undefined);
 	});
 });

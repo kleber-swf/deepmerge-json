@@ -138,3 +138,8 @@ merge.multi = (pre, ...args) => {
 }
 
 export default merge;
+
+// TODO Test the following approach: clone both objects at the start so we won't need to
+// keep cloning the objects individually during the process.
+// 1. we can clone with JSON.parse(JSON.stringify) and check the __proto__ during the merge
+// 2. we can clone manually and check for __proto__ during this phase
