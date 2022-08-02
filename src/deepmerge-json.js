@@ -49,6 +49,17 @@ const indexedReplace = function (pre, pos) {
 	return pre;
 };
 
+const indexedMerge = function (pre, pos) {
+	pre = pre.slice();
+	let kn;
+	Object.keys(pos).forEach(k => {
+		kn = Number.parseInt(k);
+		if (kn < 0 || Number.isNaN(kn)) throw Error(`Invalid index for $merge: ${k}`);
+		pre[kn] = merge(pre[kn], pos[k]);
+	});
+	return pre;
+};
+
 const insert = function (pre, pos) {
 	pre = shallowCopyArray(undefined, pre);
 	let kn;
@@ -65,6 +76,7 @@ const arrayMergeFn = {
 	$append: (pre, pos) => pre.concat(pos),
 	$prepend: (pre, pos) => pos.concat(pre),
 	$replace: indexedReplace,
+	$merge: indexedMerge,
 	$insert: insert,
 	$set: shallowCopyArray,	// TODO clone
 };
